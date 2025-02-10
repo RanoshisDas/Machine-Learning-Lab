@@ -2,8 +2,9 @@
 # 1. addition, 2. subtraction, 3. multiplication 4. division 5. Exponentiation 6, Integer Division 
 class Calculator:
     def __init__(self):
-        self.choices = {1: "Addition", 2: "Subtraction", 3
-                        : "Multiplication", 4: "Division", 5: "Exponentiation", 6: "Integer Division", 7: "Exit" }
+        self.choices = {0: "Exit", 1: "Addition", 2: "Subtraction", 3
+                        : "Multiplication", 4: "Division", 5: "Exponentiation", 6: "Integer Division",7
+                        :"Mean",8: "Median",9: "Mode"}
         self.choices_list = list(self.choices.keys())
         
     def add(self):
@@ -40,11 +41,35 @@ class Calculator:
             return "Error! Division by zero is not allowed"
         return num1 // num2
     
+    def mean(self):
+        numbers = input("Enter numbers separated by space: ")
+        numbers = [float(num) for num in numbers.split()]
+        return sum(numbers) / len(numbers)
+    
+    def median(self):
+        numbers = input("Enter numbers separated by space: ")
+        numbers = [float(num) for num in numbers.split()]
+        numbers.sort()
+        n = len(numbers)
+        if n % 2 == 0:
+            return (numbers[n // 2 + 1] + numbers[n // 2]) 
+        else:
+            return numbers[n // 2]
+        
+    def mode(self):
+        numbers = input("Enter numbers separated by space: ")
+        numbers = [float(num) for num in numbers.split()]
+        numbers.sort()
+        count_dict = { num: numbers.count(num) for num in numbers}
+        max_count = max(count_dict.values())
+        modes = [num for num, count in count_dict.items() if count == max_count]
+        return modes
+            
     def display_menu(self):
         print("\nCalculator Menu:")
         for key, value in self.choices.items():
             print(f"{key}. {value}")
-
+  
     def run(self):
         while True:
             self.display_menu()
