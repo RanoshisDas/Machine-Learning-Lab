@@ -52,7 +52,7 @@ class Calculator:
         numbers.sort()
         n = len(numbers)
         if n % 2 == 0:
-            return (numbers[n // 2 + 1] + numbers[n // 2]) 
+            return (numbers[n // 2 - 1] + numbers[n // 2]) /2
         else:
             return numbers[n // 2]
         
@@ -61,9 +61,8 @@ class Calculator:
         numbers = [float(num) for num in numbers.split()]
         numbers.sort()
         count_dict = { num: numbers.count(num) for num in numbers}
-        max_count = max(count_dict.values())
-        modes = [num for num, count in count_dict.items() if count == max_count]
-        return modes
+        return count_dict[max(count_dict.values())]
+            
             
     def display_menu(self):
         print("\nCalculator Menu:")
@@ -87,6 +86,12 @@ class Calculator:
                     print(f"Result: {self.exponentiation()}")
                 elif choice == 6:
                     print(f"Result: {self.integer_division()}")
+                elif choice == 7:
+                    print(f"Result: {self.mean()}")
+                elif choice == 8:
+                    print(f"Result: {self.median()}")
+                elif choice == 9:
+                    print( f"Result: {self.mode()}")
                 else:
                     break
             else:
