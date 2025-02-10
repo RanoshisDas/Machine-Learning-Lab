@@ -9,4 +9,7 @@
     3. multiplication
     4. division
     5. Exponentiation
-    6. Integer Division 
+    6. Integer Division
+    7. Mean
+    8. Median
+    9. Mode
