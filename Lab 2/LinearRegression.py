@@ -1,46 +1,54 @@
-# Linear Regression Model
-import random
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
 
-# Loss Function: Mean Squared Error
-def compute_loss(X, y, w, b):
-    m = len(y)
-    predictions = [w * x + b for x in X]  # y = w * X + b
-    loss = (1 / (2 * m)) * sum((pred - true) ** 2 for pred, true in zip(predictions, y))  # MSE loss function
+def mse(actual, predicted):
+    n = len(actual)
+    loss = sum([(y_i - y_p) ** 2 for y_i, y_p in zip(actual, predicted)]) / n
     return loss
 
-# Gradient Descent Function
-def gradient_descent(X, y, w, b, learning_rate, iterations):
-    m = len(y)
-    losses = []
+if __name__=='__main__':
+    # Open the dataset
+    df = pd.read_csv('data_for_lr.csv')
+    X = df['x']
+    Y = df['y']
+    n = len(X)
     
-    for i in range(iterations):
-        predictions = [w * x + b for x in X]  # y = w * X + b
-        error = [pred - true for pred, true in zip(predictions, y)]
-        
-        dw = (1 / m) * sum(x * err for x, err in zip(X, error)) 
-        db = (1 / m) * sum(error) 
-        
-        w -= learning_rate * dw
-        b -= learning_rate * db
-        
-        loss = compute_loss(X, y, w, b)
-        losses.append(loss)
-        
-        if i % 100 == 0:
-            print(f"Iteration {i}, Loss: {loss:.4f}")
+    m = 0
+    b = 0
+    alpha = 0.0001 # Learning rate
+
+    # Before Loss
+    Y_hat = m * X + b
+    loss = mse(Y, Y_hat)
+    print('before training loss:', loss)
     
-    return w, b, losses
+    iter = 10
+    for _ in range(iter): 
+        Y_hat = m * X + b  
 
-# Sample data (X and y)
-X = [i for i in range(1, 101)]  # Random data for X (1 to 100)
-y = [4 + 3 * x + (random.uniform(-5, 5)) for x in X]  # y = 4 + 3 * X + noise
+        dL_dm = (2 / n) * sum((Y_hat - Y) * X)
+        dL_db = (2 / n) * sum(Y_hat - Y)
+                
+        m = m - dL_dm * alpha
+        b = b - dL_db * alpha
+        
+        # print('m, b', m, b)
 
-w = 0.0 
-b = 0.0  
-learning_rate = 0.0001
-iterations = 1000
-w, b, losses = gradient_descent(X, y, w, b, learning_rate, iterations)
+    # After loss
+    Y_hat = m * X + b
+    loss = mse(Y, Y_hat)
+    print('After training loss:', loss)
+    
+    # Plot the dataset
+    plt.xlabel('X')
+    plt.ylabel('Y')
+    plt.scatter(X, Y)
+    plt.title('Linear Regression')
 
-# Print final learned parameters
-print(f"Final learned weight: {w:.4f}")
-print(f"Final learned bias: {b:.4f}")
+    # Draw the regression line
+    line_X = np.linspace(np.min(X), np.max(X), 100)
+    line_Y = line_X * m + b
+    plt.plot(line_X, line_Y, color='red', label=f"y = {m}x + {b}")
+    
+    plt.show()
