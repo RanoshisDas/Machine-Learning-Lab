@@ -18,4 +18,7 @@
 <h2 align="center">LAB 2</h2>
 
 1. Write a python program without using any math libraries.( Loss Function: Mean Squared Error & Gradient Descent Function)
-    
+
+<h2 align="center">LAB 5</h2>
+
+1. Write a Logistic Regretion python code.
